@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Projects</title>
+    <link rel="stylesheet" href="project.css">
+    <!-- Preconnect to external domains -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+    
+    <!-- Preload critical CSS -->
+    <link rel="preload" href="project.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="project.css"></noscript>
+    
+    <!-- Load non-critical CSS asynchronously -->
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <meta name="theme-color" content="#FFF9F5">
+</head>
+<body>
+    <header class="site-header koyeb-navbar" role="banner">
+        <div class="container header-container">
+            <a href="/" class="logo" tabindex="0" aria-label="Homepage">
+                <span class="logo-text">hrk84ya</span>
+            </a>
+            <nav class="main-nav" aria-label="Main navigation">
+                <ul class="nav-list">
+                    <li><a href="index.html" class="nav-link">Home</a></li>
+                    <li><a href="about.html" class="nav-link">About</a></li>
+                    <li><a href="https://github.com/Hrk84ya" target="_blank" class="nav-link">Github</a></li>
+                    <li><a href="https://medium.com/@hrk84ya" target="_blank" class="nav-link">Blog</a></li>
+                </ul>
+            </nav>
+            <div class="nav-actions">
+                <a href="resume.html" class="nav-link signin-link">Resume</a>
+                <a href="contact.html" class="get-started-btn">Contact</a>
+                <button class="mobile-menu-toggle" aria-label="Open menu">
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                </button>
+            </div>
+        </div>
+        <div class="mobile-menu" id="mobileMenu">
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="https://github.com/Hrk84ya" target="_blank" class="nav-link">Github</a></li>
+                <li><a href="https://medium.com/@hrk84ya" target="_blank" class="nav-link">Blog</a></li>
+                <li><a href="resume.html">Resume</a></li>
+                <li><a href="contact.html" class="get-started-btn">Contact</a></li>
+            </ul>
+        </div>
+    </header>
+
+    <main>
+        <section id="projects" class="projects" aria-labelledby="projects-heading">
+            <div class="container">
+                <div class="section-header">
+                    <h2 id="projects-heading">Selected Work</h2>
+                    <p>Here's a collection of my recent projects and case studies that showcase my skills and experience.</p>
+                </div>
+                
+                <!-- Project Grid -->
+                <div class="projects-masonry" id="projectsContainer" aria-live="polite">
+                    <!-- Projects will be dynamically loaded here -->
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="site-footer">
+        <div class="container">
+            <div class="footer-main">
+                <div class="footer-about">
+                    <a href="/" class="footer-logo">hrk84ya</a>
+                    <p class="footer-tagline">Crafting digital experiences that make an impact.</p>
+                </div>
+                
+                <div class="footer-navigation">
+                    <div class="footer-nav-section">
+                        <h4 class="footer-heading">Menu</h4>
+                        <ul class="footer-nav">
+                            <li><a href="index.html">Home</a></li>
+                            <li><a href="about.html">About</a></li>
+                            <li><a href="resume.html">Resume</a></li>
+                            <li><a href="contact.html">Contact</a></li>
+                        </ul>
+                    </div>
+                    
+                    <div class="footer-nav-section">
+                        <h4 class="footer-heading">Connect</h4>
+                        <ul class="footer-nav">
+                            <li><a href="https://github.com/Hrk84ya" target="_blank">GitHub</a></li>
+                            <li><a href="https://linkedin.com/in/yourusername" target="_blank">LinkedIn</a></li>
+                            <li><a href="https://medium.com/@hrk84ya" target="_blank">Blog</a></li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="footer-social">
+                    <h4 class="footer-heading">Follow Me</h4>
+                    <div class="social-links">
+                        <a href="https://github.com/Hrk84ya" target="_blank" rel="noopener noreferrer" aria-label="GitHub">
+                            <i class="fab fa-github"></i>
+                        </a>
+                        <a href="https://linkedin.com/in/yourusername" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
+                            <i class="fab fa-linkedin-in"></i>
+                        </a>
+                        <a href="https://medium.com/@hrk84ya" target="_blank" rel="noopener noreferrer" aria-label="Medium">
+                            <i class="fab fa-medium-m"></i>
+                        </a>
+                        <a href="mailto:hrk84ya@example.com" aria-label="Email">
+                            <i class="fas fa-envelope"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="footer-legal">
+                <p class="copyright">&copy; <span id="currentYear"></span> <span class="highlight">hrk84ya</span>. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Project Details Modal -->
+    <div id="projectModal" class="modal" aria-modal="true" role="dialog" tabindex="-1" style="display:none;">
+        <div class="modal-overlay" id="modalOverlay"></div>
+        <div class="modal-content" role="document">
+            <button class="modal-close" id="modalClose" aria-label="Close project details">&times;</button>
+            <div class="modal-image" id="modalImage"></div>
+            <div class="modal-body">
+                <h2 id="modalTitle"></h2>
+                <p id="modalDescription"></p>
+                <div class="modal-tags" id="modalTags"></div>
+                <div class="modal-links" id="modalLinks"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Back to Top Button -->
+    <button id="backToTop" class="back-to-top" aria-label="Back to top">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M18 15l-6-6-6 6"/>
+        </svg>
+    </button>
+
+    <script src="project.js"></script>
+</body>
+</html>
