@@ -33,6 +33,12 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 
+// State for active filters
+let activeFilters = {
+    category: 'all',
+    tags: new Set()
+};
+
 // Sample project data
 const projects = [
     {
@@ -145,7 +151,88 @@ document.getElementById('currentYear').textContent = new Date().getFullYear();
 document.addEventListener('DOMContentLoaded', () => {
     // Display all projects initially
     displayProjects(projects);
+    
+    // Add click event for tags
+    document.addEventListener('click', handleTagClick);
+    
+    // Add keyboard event for tag navigation
+    document.addEventListener('keydown', handleTagKeyDown);
 });
+
+// Handle tag click events
+function handleTagClick(e) {
+    const tagElement = e.target.closest('.tag');
+    if (!tagElement) return;
+    
+    e.preventDefault();
+    const tag = tagElement.dataset.tag;
+    toggleTagFilter(tag);
+}
+
+// Handle keyboard events for tags
+function handleTagKeyDown(e) {
+    // Only handle Enter and Space keys
+    if (e.key !== 'Enter' && e.key !== ' ') return;
+    
+    const tagElement = e.target.closest('.tag');
+    if (!tagElement) return;
+    
+    e.preventDefault();
+    if (e.key === 'Enter' || e.key === ' ') {
+        const tag = tagElement.dataset.tag;
+        toggleTagFilter(tag);
+    }
+}
+
+// Toggle tag filter
+function toggleTagFilter(tag) {
+    if (activeFilters.tags.has(tag)) {
+        activeFilters.tags.delete(tag);
+    } else {
+        activeFilters.tags.add(tag);
+    }
+    
+    // Update the UI
+    updateActiveTags();
+    filterAndDisplayProjects();
+}
+
+// Update active tags UI
+function updateActiveTags() {
+    // Remove existing active classes
+    document.querySelectorAll('.tag').forEach(tag => {
+        if (activeFilters.tags.has(tag.dataset.tag)) {
+            tag.classList.add('active');
+            tag.setAttribute('aria-pressed', 'true');
+        } else {
+            tag.classList.remove('active');
+            tag.setAttribute('aria-pressed', 'false');
+        }
+    });
+}
+
+// Filter and display projects based on active filters
+function filterAndDisplayProjects() {
+    let filtered = [...projects];
+    
+    // Filter by tags if any are selected
+    if (activeFilters.tags.size > 0) {
+        filtered = filtered.filter(project => 
+            Array.from(activeFilters.tags).every(tag => 
+                project.tags.includes(tag)
+            )
+        );
+    }
+    
+    // Filter by category if not 'all'
+    if (activeFilters.category !== 'all') {
+        filtered = filtered.filter(project => 
+            project.category === activeFilters.category
+        );
+    }
+    
+    displayProjects(filtered);
+}
 
 // Display projects in the grid
 function displayProjects(projectsToShow) {
@@ -176,7 +263,7 @@ function displayProjects(projectsToShow) {
 
         // Format tags
         const tags = project.tags.map(tag => 
-            `<span class="tag" aria-label="Technology: ${tag}">${tag}</span>`
+            `<span class="tag" data-tag="${tag}" tabindex="0" role="button" aria-label="Filter by ${tag}">${tag}</span>`
         ).join('');
 
         // Format links
@@ -254,17 +341,17 @@ projectSort?.addEventListener('change', (e) => {
     throttledUpdate();
 });
 
-// Update filterProjects to set currentCategory and call updateProjectsDisplay
+// Update filterProjects to set currentCategory and call filterAndDisplayProjects
 function filterProjects(category) {
-    state.currentCategory = category;
-    // Add a small fade out effect before updating
     projectsContainer.style.opacity = '0';
+    activeFilters.category = category;
+    
     setTimeout(() => {
-        updateProjectsDisplay();
+        filterAndDisplayProjects();
         projectsContainer.style.opacity = '1';
         projectsContainer.style.transition = 'opacity 0.3s ease';
         projectsContainer.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }, 300);
+    }, 150);
 }
 
 // Event listeners
@@ -356,7 +443,9 @@ function openProjectModal(project) {
     renderModalGallery();
     modalTitle.textContent = project.title;
     modalDescription.textContent = project.description;
-    modalTags.innerHTML = project.tags.map(tag => `<span>${tag}</span>`).join('');
+    modalTags.innerHTML = project.tags.map(tag => 
+        `<span class="tag" data-tag="${tag}" tabindex="0" role="button" aria-label="Filter by ${tag}" aria-pressed="${activeFilters.tags.has(tag) ? 'true' : 'false'}">${tag}</span>`
+    ).join('');
     modalLinks.innerHTML =
         (project.github ? `<a href="${project.github}" target="_blank" aria-label="View code on GitHub"><i class="fab fa-github"></i></a>` : '') +
         (project.demo ? `<a href="${project.demo}" target="_blank" aria-label="View live demo"><i class="fas fa-external-link-alt"></i></a>` : '');
