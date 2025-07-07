@@ -39,103 +39,202 @@ let activeFilters = {
     tags: new Set()
 };
 
-// Sample project data
+// Project data
 const projects = [
     {
-        id: 1,
-        title: 'E-commerce Platform',
-        description: 'A modern e-commerce solution with seamless user experience and secure payment processing.',
-        image: 'https://source.unsplash.com/random/800x600/?ecommerce,shopping',
+        id: 0,
+        title: 'Bodhgaya Forex Pvt. Ltd.',
+        description: 'A professional static website for Bodhgaya Forex Pvt. Ltd., a financial services company specializing in foreign exchange and currency exchange services.',
+        image: 'https://source.unsplash.com/random/800x600/?finance,currency',
         images: [
-            'https://source.unsplash.com/random/800x600/?ecommerce',
-            'https://source.unsplash.com/random/800x600/?shop',
-            'https://source.unsplash.com/random/800x600/?cart'
+            'https://source.unsplash.com/random/800x600/?finance,currency',
+            'https://source.unsplash.com/random/800x600/?money,exchange',
+            'https://source.unsplash.com/random/800x600/?financial,services'
         ],
-        tags: ['React', 'Node.js', 'MongoDB'],
-        github: 'https://github.com/username/ecommerce-platform',
-        demo: 'https://ecommerce-demo.com',
+        tags: ['Web Development', 'Finance', 'Business', 'Static Website'],
+        github: null,
+        demo: 'https://bodhgayaforex.com/',
         category: 'web',
-        featured: true
+        featured: true,
+        badges: ['featured']
+    },
+    {
+        id: 1,
+        title: 'Calorie Burned Calculator',
+        description: 'A simple application to calculate calories burned during various exercises based on duration and intensity.',
+        image: 'https://source.unsplash.com/random/800x600/?fitness,calculator',
+        images: [
+            'https://source.unsplash.com/random/800x600/?fitness,calculator',
+            'https://source.unsplash.com/random/800x600/?workout,tracking',
+            'https://source.unsplash.com/random/800x600/?health,app'
+        ],
+        tags: ['Python', 'Web App', 'Health & Fitness', 'Calculator'],
+        github: 'https://github.com/Hrk84ya/Calorie-Burned-Calculator',
+        demo: null,
+        category: 'web',
+        badges: []
     },
     {
         id: 2,
-        title: 'Task Management',
-        description: 'A task management application with drag-and-drop interface and team collaboration features.',
-        image: 'https://source.unsplash.com/random/800x600/?task,management',
+        title: 'Facebomp Game',
+        description: 'An interactive web-based game built with HTML, CSS, and JavaScript featuring engaging gameplay mechanics.',
+        image: 'https://source.unsplash.com/random/800x600/?game,arcade',
         images: [
-            'https://source.unsplash.com/random/800x600/?task,management',
-            'https://source.unsplash.com/random/800x600/?kanban',
-            'https://source.unsplash.com/random/800x600/?team'
+            'https://source.unsplash.com/random/800x600/?game,arcade',
+            'https://source.unsplash.com/random/800x600/?web,game',
+            'https://source.unsplash.com/random/800x600/?javascript,game'
         ],
-        tags: ['Vue.js', 'Firebase', 'Vuex'],
-        github: 'https://github.com/username/task-manager',
-        demo: 'https://task-manager-demo.com',
+        tags: ['HTML5', 'CSS3', 'JavaScript', 'Game Development'],
+        github: 'https://github.com/Hrk84ya/Facebomp-Game',
+        demo: null,
         category: 'web',
-        badges: ['open-source']
+        badges: []
     },
     {
         id: 3,
-        title: 'Fitness Tracker',
-        description: 'Mobile app for tracking workouts, nutrition, and progress with beautiful data visualizations.',
-        image: 'https://source.unsplash.com/random/800x600/?fitness,workout',
+        title: 'House Price Predictor',
+        description: 'A containerized machine learning model that predicts house prices based on various features with high accuracy.',
+        image: 'https://source.unsplash.com/random/800x600/?real,estate',
         images: [
-            'https://source.unsplash.com/random/800x600/?fitness,workout',
-            'https://source.unsplash.com/random/800x600/?exercise',
-            'https://source.unsplash.com/random/800x600/?nutrition'
+            'https://source.unsplash.com/random/800x600/?real,estate',
+            'https://source.unsplash.com/random/800x600/?house,prices',
+            'https://source.unsplash.com/random/800x600/?machine,learning,model'
         ],
-        tags: ['React Native', 'Redux', 'Firebase'],
-        github: 'https://github.com/username/fitness-tracker',
-        demo: 'https://apps.apple.com/app/fitness-tracker',
-        category: 'mobile',
-        badges: ['new']
+        tags: ['Machine Learning', 'Docker', 'Python', 'Flask', 'Data Science'],
+        github: 'https://github.com/Hrk84ya/Containerized-Machine-Learning-House-Price-Predictor',
+        demo: null,
+        category: 'ai',
+        badges: ['featured']
     },
     {
         id: 4,
-        title: 'Recipe Finder',
-        description: 'Find recipes based on ingredients you have at home with step-by-step cooking instructions.',
-        image: 'https://source.unsplash.com/random/800x600/?food,recipe',
+        title: 'Medium Article Success Predictor',
+        description: 'Machine learning model that predicts the success of Medium articles based on various features and content analysis.',
+        image: 'https://source.unsplash.com/random/800x600/?writing,blog',
         images: [
-            'https://source.unsplash.com/random/800x600/?food,recipe',
-            'https://source.unsplash.com/random/800x600/?cooking',
-            'https://source.unsplash.com/random/800x600/?ingredients'
+            'https://source.unsplash.com/random/800x600/?writing,blog',
+            'https://source.unsplash.com/random/800x600/?content,analysis',
+            'https://source.unsplash.com/random/800x600/?machine,learning,text'
         ],
-        tags: ['JavaScript', 'API', 'CSS Grid'],
-        github: 'https://github.com/username/recipe-finder',
-        demo: 'https://recipe-finder-demo.com',
-        category: 'web',
+        tags: ['Machine Learning', 'NLP', 'Python', 'Data Analysis'],
+        github: 'https://github.com/Hrk84ya/Medium',
+        demo: null,
+        category: 'ai',
         badges: []
     },
     {
         id: 5,
-        title: 'Weather Dashboard',
-        description: 'Real-time weather information with 5-day forecast and location-based weather data.',
-        image: 'https://source.unsplash.com/random/800x600/?weather,forecast',
+        title: 'News Summarizer',
+        description: 'Application that summarizes news articles using NLP techniques to provide concise overviews of current events.',
+        image: 'https://source.unsplash.com/random/800x600/?news,headlines',
         images: [
-            'https://source.unsplash.com/random/800x600/?weather,forecast',
-            'https://source.unsplash.com/random/800x600/?rain',
-            'https://source.unsplash.com/random/800x600/?clouds'
+            'https://source.unsplash.com/random/800x600/?news,headlines',
+            'https://source.unsplash.com/random/800x600/?newspaper,article',
+            'https://source.unsplash.com/random/800x600/?text,summarization'
         ],
-        tags: ['React', 'OpenWeather API', 'Chart.js'],
-        github: 'https://github.com/username/weather-dashboard',
-        demo: 'https://weather-dashboard-demo.com',
-        category: 'web',
+        tags: ['NLP', 'Python', 'Text Processing', 'Machine Learning'],
+        github: 'https://github.com/Hrk84ya/News-Summarizer',
+        demo: null,
+        category: 'ai',
         badges: []
     },
     {
         id: 6,
-        title: 'Portfolio Website',
-        description: 'A personal portfolio website to showcase projects and skills with a clean, modern design.',
-        image: 'https://source.unsplash.com/random/800x600/?portfolio,design',
+        title: 'Personal Budget Tracker',
+        description: 'An intuitive application for tracking personal finances, expenses, and budgeting with data visualization.',
+        image: 'https://source.unsplash.com/random/800x600/?budget,finance',
         images: [
-            'https://source.unsplash.com/random/800x600/?portfolio,design',
-            'https://source.unsplash.com/random/800x600/?web,portfolio',
-            'https://source.unsplash.com/random/800x600/?personal,website'
+            'https://source.unsplash.com/random/800x600/?budget,finance',
+            'https://source.unsplash.com/random/800x600/?money,management',
+            'https://source.unsplash.com/random/800x600/?expense,tracking'
         ],
-        tags: ['HTML5', 'CSS3', 'JavaScript'],
-        github: 'https://github.com/username/portfolio',
-        demo: 'https://myportfolio.com',
+        tags: ['Python', 'Streamlit', 'Data Visualization', 'Finance'],
+        github: 'https://github.com/Hrk84ya/Personal-Budget-Tracker',
+        demo: null,
         category: 'web',
-        badges: ['featured', 'open-source']
+        badges: []
+    },
+    {
+        id: 7,
+        title: 'Professional Business Card',
+        description: 'A modern, responsive business card website built with React.js to showcase professional information and contact details.',
+        image: 'https://source.unsplash.com/random/800x600/?business,card',
+        images: [
+            'https://source.unsplash.com/random/800x600/?business,card',
+            'https://source.unsplash.com/random/800x600/?professional,profile',
+            'https://source.unsplash.com/random/800x600/?digital,business,card'
+        ],
+        tags: ['React', 'JavaScript', 'CSS3', 'Responsive Design'],
+        github: 'https://github.com/Hrk84ya/Professional-Business-Card',
+        demo: null,
+        category: 'web',
+        badges: []
+    },
+    {
+        id: 8,
+        title: 'Stock Analysis Dashboard',
+        description: 'Interactive dashboard for analyzing stock market data with real-time updates and visualizations using Python and Streamlit.',
+        image: 'https://source.unsplash.com/random/800x600/?stock,market',
+        images: [
+            'https://source.unsplash.com/random/800x600/?stock,market',
+            'https://source.unsplash.com/random/800x600/?trading,chart',
+            'https://source.unsplash.com/random/800x600/?data,visualization'
+        ],
+        tags: ['Python', 'Streamlit', 'Data Analysis', 'Finance', 'Visualization'],
+        github: 'https://github.com/Hrk84ya/Stock-Analysis-Dashboard',
+        demo: null,
+        category: 'data',
+        badges: []
+    },
+    {
+        id: 9,
+        title: 'Tathagat Tour and Travels',
+        description: 'A modern, responsive website for Tathagat Tour and Travels, showcasing their travel packages, services, and booking information with an attractive UI/UX design.',
+        image: 'https://source.unsplash.com/random/800x600/?travel,agency',
+        images: [
+            'https://source.unsplash.com/random/800x600/?travel,agency',
+            'https://source.unsplash.com/random/800x600/?vacation,destination',
+            'https://source.unsplash.com/random/800x600/?holiday,booking'
+        ],
+        tags: ['Web Development', 'Travel', 'Tourism', 'Responsive Design'],
+        github: null,
+        demo: 'https://www.tathagattour.com/',
+        category: 'web',
+        featured: true,
+        badges: ['featured']
+    },
+    {
+        id: 10,
+        title: 'TL-DR: Article Summarizer',
+        description: 'A web application that generates concise, intelligent summaries of any article with a single click using advanced NLP techniques.',
+        image: 'https://source.unsplash.com/random/800x600/?ai,summarization',
+        images: [
+            'https://source.unsplash.com/random/800x600/?ai,summarization',
+            'https://source.unsplash.com/random/800x600/?text,analysis',
+            'https://source.unsplash.com/random/800x600/?machine,learning'
+        ],
+        tags: ['NLP', 'Python', 'Streamlit', 'Machine Learning', 'Web App'],
+        github: 'https://github.com/Hrk84ya/TL-DR',
+        demo: null,
+        category: 'ai',
+        featured: true,
+        badges: ['featured']
+    },
+    {
+        id: 11,
+        title: 'Weather Vista',
+        description: 'A weather reporting application that provides detailed forecasts and weather information with a clean, intuitive interface.',
+        image: 'https://source.unsplash.com/random/800x600/?weather,forecast',
+        images: [
+            'https://source.unsplash.com/random/800x600/?weather,forecast',
+            'https://source.unsplash.com/random/800x600/?climate,data',
+            'https://source.unsplash.com/random/800x600/?weather,dashboard'
+        ],
+        tags: ['Python', 'Streamlit', 'API Integration', 'Web App'],
+        github: 'https://github.com/Hrk84ya/Weather-Vista',
+        demo: null,
+        category: 'web',
+        badges: []
     }
 ];
 
