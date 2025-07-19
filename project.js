@@ -256,6 +256,9 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // Initialize search functionality
     initializeSearch();
+    
+    // Initialize mobile enhancements
+    initializeMobileEnhancements();
 });
 
 // Initialize search functionality
@@ -361,6 +364,182 @@ function clearSearch() {
     // Display projects based on current category filter
     const filtered = filterProjectsByCategory();
     displayProjects(filtered);
+}
+
+// Initialize mobile enhancements
+function initializeMobileEnhancements() {
+    // Add touch feedback for mobile devices
+    addTouchFeedback();
+    
+    // Improve mobile navigation
+    enhanceMobileNavigation();
+    
+    // Add swipe gestures for project modal gallery
+    addSwipeGestures();
+    
+    // Optimize scroll behavior for mobile
+    optimizeMobileScroll();
+}
+
+// Add touch feedback for interactive elements
+function addTouchFeedback() {
+    // Add touch feedback to project cards
+    document.addEventListener('touchstart', (e) => {
+        const projectCard = e.target.closest('.project-card');
+        if (projectCard) {
+            projectCard.style.transition = 'transform 0.1s ease';
+        }
+    });
+    
+    document.addEventListener('touchend', (e) => {
+        const projectCard = e.target.closest('.project-card');
+        if (projectCard) {
+            setTimeout(() => {
+                projectCard.style.transition = '';
+            }, 100);
+        }
+    });
+}
+
+// Enhance mobile navigation
+function enhanceMobileNavigation() {
+    const mobileMenuToggle = document.querySelector('.mobile-menu-toggle');
+    const mobileMenu = document.getElementById('mobileMenu');
+    
+    if (mobileMenuToggle && mobileMenu) {
+        // Add haptic feedback simulation
+        mobileMenuToggle.addEventListener('touchstart', () => {
+            if (navigator.vibrate) {
+                navigator.vibrate(10); // Short vibration
+            }
+        });
+        
+        // Close menu when clicking outside
+        document.addEventListener('touchstart', (e) => {
+            if (mobileMenu.classList.contains('active') && 
+                !mobileMenu.contains(e.target) && 
+                !mobileMenuToggle.contains(e.target)) {
+                mobileMenu.classList.remove('active');
+                mobileMenuToggle.classList.remove('active');
+            }
+        });
+    }
+}
+
+// Add swipe gestures for modal gallery
+function addSwipeGestures() {
+    const modal = document.getElementById('projectModal');
+    if (!modal) return;
+    
+    let startX = 0;
+    let startY = 0;
+    let isSwipe = false;
+    
+    modal.addEventListener('touchstart', (e) => {
+        startX = e.touches[0].clientX;
+        startY = e.touches[0].clientY;
+        isSwipe = true;
+    });
+    
+    modal.addEventListener('touchmove', (e) => {
+        if (!isSwipe) return;
+        
+        const currentX = e.touches[0].clientX;
+        const currentY = e.touches[0].clientY;
+        const diffX = Math.abs(currentX - startX);
+        const diffY = Math.abs(currentY - startY);
+        
+        // If vertical scroll is more prominent, don't treat as swipe
+        if (diffY > diffX) {
+            isSwipe = false;
+        }
+    });
+    
+    modal.addEventListener('touchend', (e) => {
+        if (!isSwipe) return;
+        
+        const endX = e.changedTouches[0].clientX;
+        const diffX = startX - endX;
+        const threshold = 50;
+        
+        if (Math.abs(diffX) > threshold) {
+            if (diffX > 0) {
+                // Swipe left - next image
+                nextModalImage();
+            } else {
+                // Swipe right - previous image
+                prevModalImage();
+            }
+        }
+        
+        isSwipe = false;
+    });
+}
+
+// Navigate to next modal image
+function nextModalImage() {
+    if (modalGalleryImages && modalGalleryImages.length > 1) {
+        modalGalleryIndex = (modalGalleryIndex + 1) % modalGalleryImages.length;
+        renderModalGallery();
+    }
+}
+
+// Navigate to previous modal image
+function prevModalImage() {
+    if (modalGalleryImages && modalGalleryImages.length > 1) {
+        modalGalleryIndex = modalGalleryIndex === 0 ? modalGalleryImages.length - 1 : modalGalleryIndex - 1;
+        renderModalGallery();
+    }
+}
+
+// Optimize scroll behavior for mobile
+function optimizeMobileScroll() {
+    // Throttle scroll events for better performance
+    let scrollTimeout;
+    const originalScrollHandler = window.onscroll;
+    
+    window.addEventListener('scroll', () => {
+        if (scrollTimeout) {
+            clearTimeout(scrollTimeout);
+        }
+        
+        scrollTimeout = setTimeout(() => {
+            if (originalScrollHandler) {
+                originalScrollHandler();
+            }
+            toggleBackToTop();
+        }, 10);
+    }, { passive: true });
+    
+    // Add momentum scrolling for iOS
+    document.body.style.webkitOverflowScrolling = 'touch';
+}
+
+// Enhanced mobile search with better UX
+function enhanceMobileSearch() {
+    if (!projectSearch) return;
+    
+    // Add search suggestions or recent searches could go here
+    // For now, we'll add better mobile keyboard handling
+    
+    projectSearch.addEventListener('focus', () => {
+        // Scroll search into view on mobile
+        if (window.innerWidth <= 768) {
+            setTimeout(() => {
+                projectSearch.scrollIntoView({ 
+                    behavior: 'smooth', 
+                    block: 'center' 
+                });
+            }, 300); // Wait for keyboard to appear
+        }
+    });
+    
+    // Handle mobile keyboard done/search button
+    projectSearch.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') {
+            projectSearch.blur(); // Hide keyboard
+        }
+    });
 }
 
 // Filter and display projects based on active filters
