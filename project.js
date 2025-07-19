@@ -240,7 +240,11 @@ const projects = [
 // DOM Elements
 const projectsContainer = document.getElementById('projectsContainer');
 const filterButtons = document.querySelectorAll('.filter-btn');
+const projectSearch = document.getElementById('projectSearch');
+const clearSearchBtn = document.getElementById('clearSearch');
+const searchResults = document.getElementById('searchResults');
 let filteredProjects = [...projects];
+let currentSearchQuery = '';
 
 // Set current year in footer
 document.getElementById('currentYear').textContent = new Date().getFullYear();
@@ -250,22 +254,127 @@ document.addEventListener('DOMContentLoaded', () => {
     // Display all projects initially
     displayProjects(projects);
     
-
+    // Initialize search functionality
+    initializeSearch();
 });
+
+// Initialize search functionality
+function initializeSearch() {
+    if (!projectSearch) return;
+    
+    // Search input event listener
+    projectSearch.addEventListener('input', handleSearch);
+    
+    // Clear search button event listener
+    if (clearSearchBtn) {
+        clearSearchBtn.addEventListener('click', clearSearch);
+    }
+    
+    // Enter key support
+    projectSearch.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') {
+            clearSearch();
+        }
+    });
+}
+
+// Handle search input
+function handleSearch(e) {
+    const query = e.target.value.trim();
+    currentSearchQuery = query;
+    
+    // Show/hide clear button
+    if (clearSearchBtn) {
+        clearSearchBtn.style.display = query ? 'flex' : 'none';
+    }
+    
+    // Perform search and display results
+    const searchResults = searchProjects(query);
+    displayProjects(searchResults);
+    updateSearchResults(query, searchResults.length);
+}
+
+// Search projects by title and description
+function searchProjects(query) {
+    if (!query) {
+        return filterProjectsByCategory();
+    }
+    
+    const lowercaseQuery = query.toLowerCase();
+    const filtered = projects.filter(project => {
+        const titleMatch = project.title.toLowerCase().includes(lowercaseQuery);
+        const descriptionMatch = project.description.toLowerCase().includes(lowercaseQuery);
+        return titleMatch || descriptionMatch;
+    });
+    
+    // Apply category filter if active
+    if (activeFilters.category !== 'all') {
+        return filtered.filter(project => project.category === activeFilters.category);
+    }
+    
+    return filtered;
+}
+
+// Filter projects by category only
+function filterProjectsByCategory() {
+    if (activeFilters.category === 'all') {
+        return [...projects];
+    }
+    return projects.filter(project => project.category === activeFilters.category);
+}
+
+// Update search results message
+function updateSearchResults(query, resultCount) {
+    if (!searchResults) return;
+    
+    if (!query) {
+        searchResults.classList.remove('visible', 'no-results');
+        return;
+    }
+    
+    searchResults.classList.add('visible');
+    
+    if (resultCount === 0) {
+        searchResults.classList.add('no-results');
+        searchResults.textContent = `No projects found for "${query}"`;
+    } else {
+        searchResults.classList.remove('no-results');
+        searchResults.textContent = `Found ${resultCount} project${resultCount !== 1 ? 's' : ''} for "${query}"`;
+    }
+}
+
+// Clear search
+function clearSearch() {
+    if (!projectSearch) return;
+    
+    projectSearch.value = '';
+    currentSearchQuery = '';
+    
+    if (clearSearchBtn) {
+        clearSearchBtn.style.display = 'none';
+    }
+    
+    if (searchResults) {
+        searchResults.classList.remove('visible', 'no-results');
+    }
+    
+    // Display projects based on current category filter
+    const filtered = filterProjectsByCategory();
+    displayProjects(filtered);
+}
 
 // Filter and display projects based on active filters
 function filterAndDisplayProjects() {
-    let filtered = [...projects];
-    
-
-    
-    // Filter by category if not 'all'
-    if (activeFilters.category !== 'all') {
-        filtered = filtered.filter(project => 
-            project.category === activeFilters.category
-        );
+    // If there's an active search, use search results
+    if (currentSearchQuery) {
+        const searchResults = searchProjects(currentSearchQuery);
+        displayProjects(searchResults);
+        updateSearchResults(currentSearchQuery, searchResults.length);
+        return;
     }
     
+    // Otherwise, filter by category
+    const filtered = filterProjectsByCategory();
     displayProjects(filtered);
 }
 

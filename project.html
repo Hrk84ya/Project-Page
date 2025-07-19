@@ -61,6 +61,30 @@
                 <div class="section-header">
                     <h2 id="projects-heading">Selected Work</h2>
                     <p>Here's a collection of my recent projects and case studies that showcase my skills and experience.</p>
+                    
+                    <!-- Search Bar -->
+                    <div class="search-container">
+                        <div class="search-box">
+                            <input 
+                                type="text" 
+                                id="projectSearch" 
+                                placeholder="Search projects by title or description..." 
+                                aria-label="Search projects"
+                                autocomplete="off"
+                            >
+                            <i class="fas fa-search search-icon" aria-hidden="true"></i>
+                            <button 
+                                type="button" 
+                                id="clearSearch" 
+                                class="clear-search" 
+                                aria-label="Clear search"
+                                style="display: none;"
+                            >
+                                <i class="fas fa-times" aria-hidden="true"></i>
+                            </button>
+                        </div>
+                        <div id="searchResults" class="search-results" aria-live="polite"></div>
+                    </div>
                 </div>
                 
                 <!-- Project Grid -->
