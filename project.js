@@ -35,8 +35,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 // State for active filters
 let activeFilters = {
-    category: 'all',
-    tags: new Set()
+    category: 'all'
 };
 
 // Project data
@@ -51,7 +50,7 @@ const projects = [
             'https://source.unsplash.com/random/800x600/?money,exchange',
             'https://source.unsplash.com/random/800x600/?financial,services'
         ],
-        tags: ['Web Development', 'Finance', 'Business', 'Static Website'],
+
         github: null,
         demo: 'https://bodhgayaforex.com/',
         category: 'web',
@@ -68,7 +67,7 @@ const projects = [
             'https://source.unsplash.com/random/800x600/?workout,tracking',
             'https://source.unsplash.com/random/800x600/?health,app'
         ],
-        tags: ['Python', 'Web App', 'Health & Fitness', 'Calculator'],
+
         github: 'https://github.com/Hrk84ya/Calorie-Burned-Calculator',
         demo: null,
         category: 'web',
@@ -84,7 +83,7 @@ const projects = [
             'https://source.unsplash.com/random/800x600/?web,game',
             'https://source.unsplash.com/random/800x600/?javascript,game'
         ],
-        tags: ['HTML5', 'CSS3', 'JavaScript', 'Game Development'],
+
         github: 'https://github.com/Hrk84ya/Facebomp-Game',
         demo: null,
         category: 'web',
@@ -100,7 +99,7 @@ const projects = [
             'https://source.unsplash.com/random/800x600/?house,prices',
             'https://source.unsplash.com/random/800x600/?machine,learning,model'
         ],
-        tags: ['Machine Learning', 'Docker', 'Python', 'Flask', 'Data Science'],
+
         github: 'https://github.com/Hrk84ya/Containerized-Machine-Learning-House-Price-Predictor',
         demo: null,
         category: 'ai',
@@ -116,7 +115,7 @@ const projects = [
             'https://source.unsplash.com/random/800x600/?content,analysis',
             'https://source.unsplash.com/random/800x600/?machine,learning,text'
         ],
-        tags: ['Machine Learning', 'NLP', 'Python', 'Data Analysis'],
+
         github: 'https://github.com/Hrk84ya/Medium',
         demo: null,
         category: 'ai',
@@ -132,7 +131,7 @@ const projects = [
             'https://source.unsplash.com/random/800x600/?newspaper,article',
             'https://source.unsplash.com/random/800x600/?text,summarization'
         ],
-        tags: ['NLP', 'Python', 'Text Processing', 'Machine Learning'],
+
         github: 'https://github.com/Hrk84ya/News-Summarizer',
         demo: null,
         category: 'ai',
@@ -148,7 +147,7 @@ const projects = [
             'https://source.unsplash.com/random/800x600/?money,management',
             'https://source.unsplash.com/random/800x600/?expense,tracking'
         ],
-        tags: ['Python', 'Streamlit', 'Data Visualization', 'Finance'],
+
         github: 'https://github.com/Hrk84ya/Personal-Budget-Tracker',
         demo: null,
         category: 'web',
@@ -164,7 +163,7 @@ const projects = [
             'https://source.unsplash.com/random/800x600/?professional,profile',
             'https://source.unsplash.com/random/800x600/?digital,business,card'
         ],
-        tags: ['React', 'JavaScript', 'CSS3', 'Responsive Design'],
+
         github: 'https://github.com/Hrk84ya/Professional-Business-Card',
         demo: null,
         category: 'web',
@@ -180,7 +179,7 @@ const projects = [
             'https://source.unsplash.com/random/800x600/?trading,chart',
             'https://source.unsplash.com/random/800x600/?data,visualization'
         ],
-        tags: ['Python', 'Streamlit', 'Data Analysis', 'Finance', 'Visualization'],
+
         github: 'https://github.com/Hrk84ya/Stock-Analysis-Dashboard',
         demo: null,
         category: 'data',
@@ -196,7 +195,7 @@ const projects = [
             'https://source.unsplash.com/random/800x600/?vacation,destination',
             'https://source.unsplash.com/random/800x600/?holiday,booking'
         ],
-        tags: ['Web Development', 'Travel', 'Tourism', 'Responsive Design'],
+
         github: null,
         demo: 'https://www.tathagattour.com/',
         category: 'web',
@@ -213,7 +212,7 @@ const projects = [
             'https://source.unsplash.com/random/800x600/?text,analysis',
             'https://source.unsplash.com/random/800x600/?machine,learning'
         ],
-        tags: ['NLP', 'Python', 'Streamlit', 'Machine Learning', 'Web App'],
+
         github: 'https://github.com/Hrk84ya/TL-DR',
         demo: null,
         category: 'ai',
@@ -230,7 +229,7 @@ const projects = [
             'https://source.unsplash.com/random/800x600/?climate,data',
             'https://source.unsplash.com/random/800x600/?weather,dashboard'
         ],
-        tags: ['Python', 'Streamlit', 'API Integration', 'Web App'],
+
         github: 'https://github.com/Hrk84ya/Weather-Vista',
         demo: null,
         category: 'web',
@@ -251,77 +250,14 @@ document.addEventListener('DOMContentLoaded', () => {
     // Display all projects initially
     displayProjects(projects);
     
-    // Add click event for tags
-    document.addEventListener('click', handleTagClick);
-    
-    // Add keyboard event for tag navigation
-    document.addEventListener('keydown', handleTagKeyDown);
+
 });
-
-// Handle tag click events
-function handleTagClick(e) {
-    const tagElement = e.target.closest('.tag');
-    if (!tagElement) return;
-    
-    e.preventDefault();
-    const tag = tagElement.dataset.tag;
-    toggleTagFilter(tag);
-}
-
-// Handle keyboard events for tags
-function handleTagKeyDown(e) {
-    // Only handle Enter and Space keys
-    if (e.key !== 'Enter' && e.key !== ' ') return;
-    
-    const tagElement = e.target.closest('.tag');
-    if (!tagElement) return;
-    
-    e.preventDefault();
-    if (e.key === 'Enter' || e.key === ' ') {
-        const tag = tagElement.dataset.tag;
-        toggleTagFilter(tag);
-    }
-}
-
-// Toggle tag filter
-function toggleTagFilter(tag) {
-    if (activeFilters.tags.has(tag)) {
-        activeFilters.tags.delete(tag);
-    } else {
-        activeFilters.tags.add(tag);
-    }
-    
-    // Update the UI
-    updateActiveTags();
-    filterAndDisplayProjects();
-}
-
-// Update active tags UI
-function updateActiveTags() {
-    // Remove existing active classes
-    document.querySelectorAll('.tag').forEach(tag => {
-        if (activeFilters.tags.has(tag.dataset.tag)) {
-            tag.classList.add('active');
-            tag.setAttribute('aria-pressed', 'true');
-        } else {
-            tag.classList.remove('active');
-            tag.setAttribute('aria-pressed', 'false');
-        }
-    });
-}
 
 // Filter and display projects based on active filters
 function filterAndDisplayProjects() {
     let filtered = [...projects];
     
-    // Filter by tags if any are selected
-    if (activeFilters.tags.size > 0) {
-        filtered = filtered.filter(project => 
-            Array.from(activeFilters.tags).every(tag => 
-                project.tags.includes(tag)
-            )
-        );
-    }
+
     
     // Filter by category if not 'all'
     if (activeFilters.category !== 'all') {
@@ -360,10 +296,7 @@ function displayProjects(projectsToShow) {
             badgesHTML = `<div class="project-badges">${project.badges.map(badge => `<span class="project-badge ${badge}">${badge.replace('-', ' ')}</span>`).join('')}</div>`;
         }
 
-        // Format tags
-        const tags = project.tags.map(tag => 
-            `<span class="tag" data-tag="${tag}" tabindex="0" role="button" aria-label="Filter by ${tag}">${tag}</span>`
-        ).join('');
+
 
         // Format links
         const links = [];
@@ -386,9 +319,7 @@ function displayProjects(projectsToShow) {
             <div class="project-content">
                 <h3 id="project-${project.id}-title">${project.title}</h3>
                 <p id="project-${project.id}-desc">${project.description}</p>
-                <div class="project-tags">
-                    ${tags}
-                </div>
+
                 <div class="project-links">
                     ${links.join('')}
                 </div>
@@ -542,9 +473,7 @@ function openProjectModal(project) {
     renderModalGallery();
     modalTitle.textContent = project.title;
     modalDescription.textContent = project.description;
-    modalTags.innerHTML = project.tags.map(tag => 
-        `<span class="tag" data-tag="${tag}" tabindex="0" role="button" aria-label="Filter by ${tag}" aria-pressed="${activeFilters.tags.has(tag) ? 'true' : 'false'}">${tag}</span>`
-    ).join('');
+    modalTags.innerHTML = '';
     modalLinks.innerHTML =
         (project.github ? `<a href="${project.github}" target="_blank" aria-label="View code on GitHub"><i class="fab fa-github"></i></a>` : '') +
         (project.demo ? `<a href="${project.demo}" target="_blank" aria-label="View live demo"><i class="fas fa-external-link-alt"></i></a>` : '');
