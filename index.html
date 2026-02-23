@@ -18,6 +18,210 @@
     <link rel="preload" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
     <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
     <meta name="theme-color" content="#FFF9F5">
+    
+    <!-- ADDED: QA Testing Scripts for Homepage Testing -->
+    <script>
+        // QA Test Suite for Homepage
+        window.qaTests = {
+            results: [],
+            
+            // Test 1: Navigation Links Functionality
+            testNavigationLinks: function() {
+                const navLinks = document.querySelectorAll('.nav-link, .get-started-btn');
+                const results = {
+                    test: 'Navigation Links',
+                    passed: true,
+                    details: []
+                };
+                
+                navLinks.forEach(link => {
+                    const href = link.getAttribute('href');
+                    if (!href || href === '#') {
+                        results.passed = false;
+                        results.details.push(`Invalid link: ${link.textContent}`);
+                    } else {
+                        results.details.push(`✓ ${link.textContent}: ${href}`);
+                    }
+                });
+                
+                this.results.push(results);
+                return results;
+            },
+            
+            // Test 2: Responsive Design Check
+            testResponsiveDesign: function() {
+                const results = {
+                    test: 'Responsive Design',
+                    passed: true,
+                    details: []
+                };
+                
+                const viewportWidth = window.innerWidth;
+                const mobileMenu = document.querySelector('.mobile-menu-toggle');
+                const mainNav = document.querySelector('.main-nav');
+                
+                if (viewportWidth <= 768) {
+                    results.details.push(`Mobile view detected (${viewportWidth}px)`);
+                    if (mobileMenu) {
+                        results.details.push('✓ Mobile menu toggle present');
+                    } else {
+                        results.passed = false;
+                        results.details.push('✗ Mobile menu toggle missing');
+                    }
+                } else {
+                    results.details.push(`Desktop view detected (${viewportWidth}px)`);
+                    if (mainNav) {
+                        results.details.push('✓ Main navigation present');
+                    }
+                }
+                
+                this.results.push(results);
+                return results;
+            },
+            
+            // Test 3: Page Load Performance
+            testPageLoadPerformance: function() {
+                const results = {
+                    test: 'Page Load Performance',
+                    passed: true,
+                    details: []
+                };
+                
+                if (window.performance && window.performance.timing) {
+                    const perfData = window.performance.timing;
+                    const pageLoadTime = perfData.loadEventEnd - perfData.navigationStart;
+                    const domReadyTime = perfData.domContentLoadedEventEnd - perfData.navigationStart;
+                    
+                    results.details.push(`Page Load Time: ${pageLoadTime}ms`);
+                    results.details.push(`DOM Ready Time: ${domReadyTime}ms`);
+                    
+                    if (pageLoadTime > 3000) {
+                        results.passed = false;
+                        results.details.push('⚠ Page load time exceeds 3 seconds');
+                    } else {
+                        results.details.push('✓ Page load time acceptable');
+                    }
+                } else {
+                    results.details.push('Performance API not available');
+                }
+                
+                this.results.push(results);
+                return results;
+            },
+            
+            // Test 4: Visual Consistency Check
+            testVisualConsistency: function() {
+                const results = {
+                    test: 'Visual Consistency',
+                    passed: true,
+                    details: []
+                };
+                
+                // Check for critical elements
+                const criticalElements = [
+                    { selector: '.site-header', name: 'Header' },
+                    { selector: '.site-footer', name: 'Footer' },
+                    { selector: '.projects', name: 'Projects Section' },
+                    { selector: '.logo', name: 'Logo' }
+                ];
+                
+                criticalElements.forEach(element => {
+                    const el = document.querySelector(element.selector);
+                    if (el) {
+                        const styles = window.getComputedStyle(el);
+                        results.details.push(`✓ ${element.name} present and visible`);
+                    } else {
+                        results.passed = false;
+                        results.details.push(`✗ ${element.name} missing`);
+                    }
+                });
+                
+                this.results.push(results);
+                return results;
+            },
+            
+            // Test 5: Accessibility Check
+            testAccessibility: function() {
+                const results = {
+                    test: 'Accessibility',
+                    passed: true,
+                    details: []
+                };
+                
+                // Check for alt text on images
+                const images = document.querySelectorAll('img');
+                images.forEach((img, index) => {
+                    if (!img.alt) {
+                        results.passed = false;
+                        results.details.push(`✗ Image ${index + 1} missing alt text`);
+                    }
+                });
+                
+                // Check for ARIA labels
+                const buttons = document.querySelectorAll('button');
+                buttons.forEach((btn, index) => {
+                    if (!btn.getAttribute('aria-label') && !btn.textContent.trim()) {
+                        results.passed = false;
+                        results.details.push(`✗ Button ${index + 1} missing aria-label`);
+                    } else {
+                        results.details.push(`✓ Button ${index + 1} has proper labeling`);
+                    }
+                });
+                
+                this.results.push(results);
+                return results;
+            },
+            
+            // Run all tests
+            runAllTests: function() {
+                console.log('🧪 Starting QA Test Suite...\n');
+                this.results = [];
+                
+                this.testNavigationLinks();
+                this.testResponsiveDesign();
+                this.testPageLoadPerformance();
+                this.testVisualConsistency();
+                this.testAccessibility();
+                
+                this.displayResults();
+            },
+            
+            // Display results in console
+            displayResults: function() {
+                console.log('\n📊 QA Test Results:\n');
+                console.log('='.repeat(50));
+                
+                let passedCount = 0;
+                let failedCount = 0;
+                
+                this.results.forEach(result => {
+                    const status = result.passed ? '✅ PASSED' : '❌ FAILED';
+                    console.log(`\n${status}: ${result.test}`);
+                    result.details.forEach(detail => {
+                        console.log(`  ${detail}`);
+                    });
+                    
+                    if (result.passed) passedCount++;
+                    else failedCount++;
+                });
+                
+                console.log('\n' + '='.repeat(50));
+                console.log(`\n📈 Summary: ${passedCount} passed, ${failedCount} failed`);
+                console.log(`Success Rate: ${((passedCount / this.results.length) * 100).toFixed(1)}%\n`);
+                
+                // Store results for potential UI display
+                sessionStorage.setItem('qaTestResults', JSON.stringify(this.results));
+            }
+        };
+        
+        // Auto-run tests when page loads
+        window.addEventListener('load', function() {
+            setTimeout(() => {
+                window.qaTests.runAllTests();
+            }, 1000);
+        });
+    </script>
+    <!-- END ADDED: QA Testing Scripts -->
 </head>
 <body>
     <header class="site-header koyeb-navbar" role="banner">
